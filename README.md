@@ -1,0 +1,1 @@
+to run app you need to install flask and execute command '''python3 app.py'''
