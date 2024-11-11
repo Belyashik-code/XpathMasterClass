@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ввод имени</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4c83ff, #8fd3f4);
+    }
+
+    .container {
+      text-align: center;
+      background-color: white;
+      padding: 40px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      max-width: 300px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      margin-bottom: 20px;
+      transition: border 0.3s ease;
+    }
+
+    input[type="text"]:focus {
+      border: 1px solid #4c83ff;
+      outline: none;
+    }
+
+    .btn {
+      background-color: #4c83ff;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      width: 100%;
+    }
+
+    .btn:hover {
+      background-color: #3a6ac7;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+      <form method="post">
+          <h1>Введите ваше имя</h1>
+          <input type="text" name="username" placeholder="Ваше имя" required>
+          <input class="btn"  type="submit" value="Войти">
+      </form>
+  </div>
+</body>
+</html>

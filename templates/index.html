@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Задания</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        * {
+            font-family: "Gill Sans";
+        }
+        h5 {
+           font-weight: bold;
+        }
+        body {
+          min-height: 100vh;
+          font-family: Arial, sans-serif;
+          background: linear-gradient(135deg, #4c83ff, #8fd3f4);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h2 class="text-center mb-4" style="font-weight: bold;">Карусель заданий</h2>
+  <div id="taskCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+    <div class="carousel-inner">
+      <!-- Слайды с заданиями -->
+      {% for i in range(1, 11) %}
+      <div class="carousel-item {% if i == 1 %}active{% endif %}">
+        <div class="card d-flex flex-column" style="min-height: 500px">
+            <div class="card-header">
+                <h5 class="text-center">Задание №{{ i }}</h5>
+            </div>
+            <div class="card-body" id="task_id_{{i}}">
+          </div>
+          <div class="card-footer text-body-secondary text-center">
+              <input id="answer_id_{{i}}" type="text" class="form-control mb-3 mt-auto" placeholder="Введите ваш ответ" value='//*[@id="task_id_{{i}}"]'>
+              <button id="check_answer_{{i}}" onclick="findElementByXPath('{{i}}')" class="btn btn-primary ">Отправить ответ</button>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+    <!-- Навигация по слайдам -->
+<a class="carousel-control-prev" href="#taskCarousel" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Предыдущее</span>
+    </a>
+    <a class="carousel-control-next" href="#taskCarousel" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Следующее</span>
+    </a>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+<script>
+    var a = [];
+    window.addEventListener('load', function() {
+        for (i = 1; i <=11; i++) {
+            (function(i) {
+                axios(`http://192.168.1.73:5001/get_task?task_id=${i}`)
+                    .then(response => {
+                        window.document.getElementById(`task_id_${i}`).innerHTML = response.data['elements']
+                        a[i] = response.data['a']
+                        console.log(`The Promise resolved and gave me:`, response.data)
+                        console.log(`The Promise resolved and gave me:`, response.data)
+                    })
+                    .catch(error => {
+                        console.log(`The Promise failed and the error is ${error}`)
+                    })
+                    .finally(() => {
+                        console.log("I run whether the promise succeeds or fails")
+                    })
+            })(i);
+        }
+    });
+
+    function findElementByXPath(answer_id) {
+            // Получаем XPath из поля ввода
+            let xpath = document.getElementById(`answer_id_${answer_id}`).value;
+
+            if (answer_id === '1' && xpath === '//*[@id="task_id_1"]/div/div[2]/p[2]/flag') {
+                clearInput(answer_id)
+                return
+            }
+
+            // Выполняем поиск элемента по XPath
+            let element = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+
+            if (element) {
+                if (a[answer_id]["tag"]){
+                    console.log("Элемент найден:", element);
+                    console.log(`${element.tagName === a[answer_id]["tag"]}`);
+
+                    {#дизэйблим если ответ верен#}
+                    if (element.tagName === a[answer_id]["tag"]){
+                         setTaskComplete(answer_id);
+                    }
+                }
+
+            } else {
+                console.log("Элемент не найден");
+            }
+        }
+
+    function setTaskComplete(answer_id) {
+        document.getElementById(`check_answer_${answer_id}`).disabled = true;
+        document.getElementById(`answer_id_${answer_id}`).disabled = true;
+        document.getElementById(`answer_id_${answer_id}`).setAttribute("style", "color: green; border: 1px solid green;");
+    }
+
+    function clearInput(answer_id) {
+        document.getElementById(`answer_id_${answer_id}`).value = '//*[@id="task_id_1"]';
+    }
+</script>
+
+</body>
+</html>
