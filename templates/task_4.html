@@ -1,6 +1,9 @@
 <parent name="data">
-    <child id="1" name="alpha">На первый взгляд тут ничего нет... </br> Но на самом деле здесь присутствует xml структура.</br>
-        Наша задача найти единственную собаку в нем. </br> Правильным ответом будет элемент, которой сообщает нам тип животного.
+    <child id="1" name="alpha">
+        Настало время решить последнюю и наиболее сложную задачку на основе этой xml структуры</br>
+        (далее будет задачка со звездочкой по этой струкре, но это не в счет)</br>
+        Что ж, теперь мы хотим скомбинировать сразу несколько условий:</br>
+        Мы хотим найти элемент содержащий поле name кошки, у которой день рождения 5-ого Ноября, а ее любимая еда курица.
     </child>
     <child id="2" name="beta">
         <grandchild id="2.1" name="beta-alpha"></grandchild>
@@ -16,7 +19,7 @@
         <description>
         </description>
         <data>
-            <birthday month="feb" day="3"></birthday>
+            <birthday month="feb" day="2"></birthday>
             <food name="Acana Dog Food"></food>
         </data>
     </pet>
@@ -28,8 +31,8 @@
     </pet>
     <pet name="Tigger" type="cat">
         <data>
-            <birthday month="september" day="1"></birthday>
-            <food name="Meat"></food>
+            <birthday month="september" day="5"></birthday>
+            <food name="Chicken"></food>
         </data>
     </pet>
 
